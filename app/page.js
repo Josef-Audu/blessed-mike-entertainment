@@ -137,22 +137,41 @@ function MainFeedContent() {
 }
 
 // Isolated Sub-component to manage clean per-card client image errors dynamically
+// Includes built-in evaluation logic for video rendering
 function PostCard({ post }) {
   const [imgError, setImgError] = useState(false);
+
+  const isVideoFile = post.image_url && (
+    post.image_url.toLowerCase().endsWith(".mp4") || 
+    post.image_url.toLowerCase().endsWith(".mov") || 
+    post.image_url.toLowerCase().endsWith(".webm")
+  );
 
   return (
     <article className="group bg-zinc-900/10 border border-zinc-900 rounded-xl overflow-hidden hover:border-zinc-800 transition-all duration-300 flex flex-col justify-between">
       
+      {/* Cinematic Media Visual Window */}
       <div className="relative aspect-video w-full bg-zinc-950 overflow-hidden border-b border-zinc-900 flex items-center justify-center">
         {post.image_url && !imgError ? (
-          <Image 
-            src={post.image_url} 
-            alt={post.title} 
-            fill 
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            onError={() => setImgError(true)}
-            className="object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
-          />
+          isVideoFile ? (
+            <video 
+              src={post.image_url} 
+              muted 
+              loop 
+              autoPlay 
+              playsInline 
+              className="w-full h-full object-cover pointer-events-none"
+            />
+          ) : (
+            <Image 
+              src={post.image_url} 
+              alt={post.title} 
+              fill 
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              onError={() => setImgError(true)}
+              className="object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+            />
+          )
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 to-zinc-950 flex items-center justify-center">
             <span className="text-zinc-700 text-xs font-black tracking-[0.3em] uppercase font-mono group-hover:text-zinc-500 transition-colors duration-300">

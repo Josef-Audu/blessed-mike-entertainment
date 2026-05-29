@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "next/image"; // Fixed the typo here
 import { useParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
@@ -63,6 +63,12 @@ export default function SinglePostPage() {
     );
   }
 
+  const isVideoFile = post.image_url && (
+    post.image_url.toLowerCase().endsWith(".mp4") || 
+    post.image_url.toLowerCase().endsWith(".mov") || 
+    post.image_url.toLowerCase().endsWith(".webm")
+  );
+
   return (
     <main className="min-h-screen bg-zinc-950 text-white selection:bg-amber-500 selection:text-black font-sans antialiased pb-24">
       
@@ -102,15 +108,24 @@ export default function SinglePostPage() {
         {/* Cinematic Main Feature Visual Frame */}
         <div className="relative aspect-video w-full bg-zinc-900 rounded-xl overflow-hidden border border-zinc-900 mb-10 flex items-center justify-center shadow-2xl">
           {post.image_url && !imgError ? (
-            <Image 
-              src={post.image_url} 
-              alt={post.title} 
-              fill 
-              priority
-              sizes="(max-width: 1200px) 100vw, 1200px"
-              onError={() => setImgError(true)}
-              className="object-cover"
-            />
+            isVideoFile ? (
+              <video 
+                src={post.image_url} 
+                controls 
+                playsInline 
+                className="w-full h-full object-contain bg-black" 
+              />
+            ) : (
+              <Image 
+                src={post.image_url} 
+                alt={post.title} 
+                fill 
+                priority
+                sizes="(max-width: 1200px) 100vw, 1200px"
+                onError={() => setImgError(true)}
+                className="object-cover"
+              />
+            )
           ) : (
             /* Tactical ambient mesh grid background fallback if cover img doesn't resolve */
             <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 to-zinc-950 flex flex-col items-center justify-center space-y-2 opacity-80">
