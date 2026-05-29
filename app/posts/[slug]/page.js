@@ -86,11 +86,11 @@ export default function SinglePostPage() {
     try {
       setSubmittingComment(true);
 
-      // Using 'username' and 'post_slug' to match your database columns exactly
+      // Synced exactly with your Supabase schema definitions
       const payload = {
         post_slug: slug,
         username: authorName.trim() || "Anonymous User",
-        content: commentContent.trim()
+        comment_text: commentContent.trim()
       };
 
       const { data, error } = await supabase
@@ -250,7 +250,7 @@ export default function SinglePostPage() {
                     </span>
                   </div>
                   <p className="text-zinc-400 text-sm leading-relaxed whitespace-pre-wrap">
-                    {comment.content}
+                    {comment.comment_text}
                   </p>
                 </div>
               ))

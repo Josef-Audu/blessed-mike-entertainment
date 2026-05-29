@@ -158,9 +158,7 @@ export default function AdminDashboard() {
 
       if (error) throw error;
 
-      // ==================== MANDATORY POPUP ON SUCCESS ====================
       alert("UPLOADED SUCCESSFULLY! Broadcast segment has been deployed to the live arena.");
-
       setMessage({ type: "success", text: "Entry with media successfully broadcasted to the Arena feed!" });
       
       // Cleanup UI form states
@@ -170,7 +168,6 @@ export default function AdminDashboard() {
       setMediaPreview("");
       fetchPosts();
     } catch (err) {
-      // ==================== MANDATORY POPUP ON FAILURE ====================
       alert(`UPLOAD FAILED!\nReason: ${err.message}`);
       setMessage({ type: "error", text: err.message });
     } finally {
@@ -178,14 +175,26 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!confirm("Are you sure you want to terminate this broadcast item?")) return;
+  // Optimized to handle cascading comment elimination simultaneously
+  const handleDelete = async (postSlug, postId) => {
+    if (!confirm("Are you sure you want to terminate this broadcast item? This will completely erase all associated comments as well.")) return;
 
     try {
-      const { error } = await supabase.from("posts").delete().eq("id", id);
+      // 1. First sweep the comments table clean of associated post metrics
+      await supabase
+        .from("comments")
+        .delete()
+        .eq("post_slug", postSlug);
+
+      // 2. Erase the core post record from index
+      const { error } = await supabase
+        .from("posts")
+        .delete()
+        .eq("id", postId);
+        
       if (error) throw error;
 
-      alert("Broadcast entry permanently deleted.");
+      alert("Broadcast entry and all associated comments permanently deleted.");
       fetchPosts();
     } catch (err) {
       alert(`Delete failed: ${err.message}`);
@@ -329,7 +338,8 @@ export default function AdminDashboard() {
                       </div>
                       <h3 className="text-sm font-bold uppercase tracking-tight text-zinc-200 truncate">{post.title}</h3>
                     </div>
-                    <button onClick={() => handleDelete(post.id)} className="text-[10px] font-mono border border-zinc-900 text-zinc-500 hover:text-rose-400 bg-zinc-950/40 px-3 py-2 rounded transition-all">Terminate ×</button>
+                    {/* Passes both parameters safely into the cascade deletion method */}
+                    <button onClick={() => handleDelete(post.slug, post.id)} className="text-[10px] font-mono border border-zinc-900 text-zinc-500 hover:text-rose-400 bg-zinc-950/40 px-3 py-2 rounded transition-all">Terminate ×</button>
                   </div>
                 ))}
               </div>
