@@ -12,6 +12,8 @@ import { createServiceClient, getAdminUser } from "@/lib/supabase-server";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+const POST_COLUMNS = "id,title,slug,category,content,image_url,likes,created_at";
+
 function authError(result) {
   return NextResponse.json(
     { error: result.error === "FORBIDDEN" ? "Forbidden." : "Authentication required." },
@@ -26,7 +28,7 @@ export async function GET(request) {
 
     const { data, error } = await createServiceClient()
       .from("posts")
-      .select("id,title,slug,category,content,image_url,likes,created_at,time_ago")
+      .select(POST_COLUMNS)
       .order("created_at", { ascending: false })
       .limit(200);
     if (error) throw error;
@@ -94,7 +96,7 @@ export async function POST(request) {
     const { data, error } = await service
       .from("posts")
       .insert({ ...validated.data, image_url: imageUrl })
-      .select("id,title,slug,category,content,image_url,likes,created_at,time_ago")
+      .select(POST_COLUMNS)
       .single();
 
     if (error) {

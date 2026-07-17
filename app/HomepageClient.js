@@ -39,7 +39,7 @@ export default function HomepageClient() {
       try {
         let query = supabase
           .from("posts")
-          .select("id,title,slug,category,content,image_url,likes,created_at,time_ago")
+          .select("id,title,slug,category,content,image_url,likes,created_at")
           .order("created_at", { ascending: false })
           .limit(100);
         if (category) query = query.eq("category", category);
