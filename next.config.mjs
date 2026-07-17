@@ -1,5 +1,12 @@
 /** @type {import('next').NextConfig} */
 const supabaseOrigin = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://bnrztkcmzglfidruuyxn.supabase.co';
+const isDevelopment = process.env.NODE_ENV === 'development';
+
+const scriptSources = ["'self'", "'unsafe-inline'"];
+if (isDevelopment) scriptSources.push("'unsafe-eval'");
+
+const connectSources = ["'self'", supabaseOrigin];
+if (isDevelopment) connectSources.push('ws://localhost:*', 'ws://127.0.0.1:*');
 
 const contentSecurityPolicy = [
   "default-src 'self'",
@@ -7,13 +14,13 @@ const contentSecurityPolicy = [
   "form-action 'self'",
   "frame-ancestors 'none'",
   "object-src 'none'",
-  "script-src 'self' 'unsafe-inline'",
+  `script-src ${scriptSources.join(' ')}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https://bnrztkcmzglfidruuyxn.supabase.co",
   "media-src 'self' blob: https://bnrztkcmzglfidruuyxn.supabase.co",
-  `connect-src 'self' ${supabaseOrigin}`,
+  `connect-src ${connectSources.join(' ')}`,
   "font-src 'self' data:",
-  "upgrade-insecure-requests",
+  ...(isDevelopment ? [] : ['upgrade-insecure-requests']),
 ].join('; ');
 
 const securityHeaders = [

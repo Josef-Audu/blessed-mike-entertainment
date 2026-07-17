@@ -1,113 +1,49 @@
-"use client"; // ⚡ This tells Next.js to allow interactivity like onSubmit forms!
+"use client";
 
+import { motion } from "framer-motion";
 import Link from "next/link";
+
+const categoryLinks = [
+  { name: "Sports Arena", href: "/?category=sports" },
+  { name: "Music Updates", href: "/?category=music" },
+  { name: "Entertainment", href: "/?category=entertainment" },
+  { name: "Pop Culture", href: "/?category=pop-culture" },
+];
+
+const companyLinks = [
+  { name: "About Us", href: "/about" },
+  { name: "Contact Press", href: "/contact-press" },
+  { name: "Privacy Policy", href: "/privacy-policy" },
+  { name: "Terms of Service", href: "/terms-of-service" },
+];
+
+function FooterLink({ href, children }) {
+  return <motion.div whileHover={{ x: 4 }}><Link href={href} className="inline-block transition-colors hover:text-amber-400">{children}</Link></motion.div>;
+}
 
 export default function Footer() {
   return (
-    <footer className="bg-zinc-950 border-t border-zinc-900 text-zinc-400 font-sans">
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        
-        {/* Main Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-          
-          {/* Brand Column */}
+    <footer className="border-t border-zinc-900 bg-zinc-950 font-sans text-zinc-400">
+      <div className="mx-auto max-w-7xl px-6 py-16">
+        <div className="mb-16 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div className="flex flex-col gap-4">
-            <Link href="/" className="text-xl font-black tracking-tight text-white uppercase">
-              BLESSED <span className="text-amber-400">MIKE{"'"}S</span>
-            </Link>
-            <p className="text-sm text-zinc-400 leading-relaxed max-w-xs">
-              {"The ultimate digital colosseum for Nigerian sports highlights, explosive afrobeats coverage, movie reviews, and pop culture breakdowns."}
-            </p>
-            {/* Social Icons Placeholder */}
-            <div className="flex gap-4 mt-2">
-              {["twitter", "instagram", "youtube", "tiktok"].map((platform) => (
-                <a 
-                  key={platform} 
-                  href={`#${platform}`} 
-                  className="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-amber-400 hover:border-amber-500/30 transition duration-200 capitalize text-xs font-semibold"
-                >
-                  {platform[0]}
-                </a>
-              ))}
-            </div>
+            <Link href="/" className="text-xl font-black uppercase tracking-tight text-white">Blessed <span className="text-amber-400">Mike&apos;s</span></Link>
+            <p className="max-w-xs text-sm leading-relaxed">The digital colosseum for Nigerian sports highlights, explosive afrobeats coverage, movie reviews, and pop culture breakdowns.</p>
+            <div className="mt-2 flex gap-4">{["twitter", "instagram", "youtube", "tiktok"].map((platform) => <motion.a key={platform} href={`#${platform}`} aria-label={platform} whileHover={{ y: -3, scale: 1.08 }} className="flex h-8 w-8 items-center justify-center rounded-full border border-zinc-800 bg-zinc-900 text-xs font-semibold text-zinc-400 transition-colors hover:border-amber-500/30 hover:text-amber-400">{platform[0]}</motion.a>)}</div>
           </div>
-
-          {/* Navigation Links Column */}
+          <div><h2 className="mb-6 text-sm font-bold uppercase tracking-wider text-white">Categories</h2><ul className="flex flex-col gap-3 text-sm">{categoryLinks.map((link) => <li key={link.name}><FooterLink href={link.href}>{link.name}</FooterLink></li>)}</ul></div>
+          <div><h2 className="mb-6 text-sm font-bold uppercase tracking-wider text-white">Company</h2><ul className="flex flex-col gap-3 text-sm">{companyLinks.map((link) => <li key={link.name}><FooterLink href={link.href}>{link.name}</FooterLink></li>)}</ul></div>
           <div>
-            <h4 className="text-sm font-bold tracking-wider text-white uppercase mb-6">
-              {"Categories"}
-            </h4>
-            <ul className="flex flex-col gap-3 text-sm">
-              {[
-                { name: "Sports Arena", href: "#" },
-                { name: "Music Updates", href: "#" },
-                { name: "Entertainment", href: "#" },
-                { name: "Pop Culture", href: "#" }
-              ].map((link) => (
-                <li key={link.name}>
-                  <Link href={link.href} className="hover:text-amber-400 transition duration-200">
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Business & Legal Column */}
-          <div>
-            <h4 className="text-sm font-bold tracking-wider text-white uppercase mb-6">
-              {"Company"}
-            </h4>
-            <ul className="flex flex-col gap-3 text-sm">
-              {[
-                { name: "About Us", href: "#" },
-                { name: "Contact Press", href: "#" },
-                { name: "Privacy Policy", href: "#" },
-                { name: "Terms of Service", href: "#" }
-              ].map((link) => (
-                <li key={link.name}>
-                  <Link href={link.href} className="hover:text-amber-400 transition duration-200">
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Newsletter Column */}
-          <div>
-            <h4 className="text-sm font-bold tracking-wider text-white uppercase mb-6">
-              {"Stay in the Loop"}
-            </h4>
-            <p className="text-sm text-zinc-400 mb-4 leading-relaxed">
-              {"Get the absolute freshest headlines delivered straight to your inbox."}
-            </p>
-            <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-2">
-              <input 
-                type="email" 
-                placeholder="Enter your email address" 
-                className="w-full px-4 py-3 bg-zinc-900 border border-zinc-800/80 rounded-lg text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500 transition duration-200"
-                required
-              />
-              <button 
-                type="submit" 
-                className="w-full py-3 bg-amber-500 text-zinc-950 text-sm font-bold uppercase tracking-wider rounded-lg hover:bg-amber-400 transition duration-200"
-              >
-                {"Subscribe Now"}
-              </button>
+            <h2 className="mb-6 text-sm font-bold uppercase tracking-wider text-white">Stay in the loop</h2>
+            <p className="mb-4 text-sm leading-relaxed">Get the freshest headlines delivered straight to your inbox.</p>
+            <form onSubmit={(event) => event.preventDefault()} className="flex flex-col gap-2">
+              <label htmlFor="footer-email" className="sr-only">Email address</label>
+              <input id="footer-email" type="email" placeholder="Enter your email address" required className="w-full rounded-lg border border-zinc-800/80 bg-zinc-900 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-500 focus:border-amber-500" />
+              <motion.button type="submit" whileHover={{ y: -2, scale: 1.01 }} whileTap={{ scale: 0.98 }} className="w-full rounded-lg bg-amber-500 py-3 text-sm font-bold uppercase tracking-wider text-zinc-950 transition-colors hover:bg-amber-400 hover:shadow-[0_12px_36px_rgba(245,158,11,0.16)]">Subscribe now</motion.button>
             </form>
           </div>
-
         </div>
-
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-zinc-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-          <p>© 2026 Blessed Mike{"'"}s Entertainment. All rights reserved.</p>
-          <p className="text-zinc-600">
-            {"Engineered with Next.js & Tailwind CSS"}
-          </p>
-        </div>
-
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-zinc-900 pt-8 text-xs sm:flex-row"><p>© 2026 Blessed Mike&apos;s Entertainment. All rights reserved.</p><p className="text-zinc-600">Engineered with Next.js &amp; Tailwind CSS</p></div>
       </div>
     </footer>
   );
