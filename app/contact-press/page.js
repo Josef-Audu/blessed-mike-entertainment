@@ -22,7 +22,7 @@ export default function ContactPressPage() {
         <Reveal className="space-y-8">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-500">Press contact</p>
-            <h2 className="mt-3 text-2xl font-bold">press@blessedmikesentertainment.com</h2>
+            <h2 className="mt-3 text-2xl font-bold">Michaelchimeremuezeprosper@gmail.com</h2>
             <p className="mt-3 text-sm leading-7 text-zinc-500">Proposed press mailbox. Confirm that this address is active before publication.</p>
           </div>
           <div className="border-t border-zinc-900 pt-8">
