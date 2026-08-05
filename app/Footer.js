@@ -43,7 +43,13 @@ export default function Footer() {
             </form>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-between gap-4 border-t border-zinc-900 pt-8 text-xs sm:flex-row"><p>© 2026 Blessed Mike&apos;s Entertainment. All rights reserved.</p><p className="text-zinc-600">Engineered with Next.js &amp; Tailwind CSS</p></div>
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-zinc-900 pt-8 text-xs sm:flex-row">
+          <p>© 2026 Blessed Mike&apos;s Entertainment. All rights reserved.</p>
+          <div className="flex items-center gap-4">
+            <motion.a whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.96 }} target="_blank" rel="noopener noreferrer" href="mailto:Michaelchimeremuezeprosper@gmail.com" className="rounded-full border border-zinc-800 bg-zinc-900 px-4 py-2 text-xs font-semibold text-zinc-300">Email us</motion.a>
+            <motion.a whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.96 }} target="_blank" rel="noopener noreferrer" href="https://wa.me/2347044281541?text=Hello%2C%20I%20would%20like%20to%20make%20an%20inquiry." className="rounded-full border border-amber-500 bg-amber-500 px-4 py-2 text-xs font-black text-zinc-950">WhatsApp</motion.a>
+          </div>
+        </div>
       </div>
     </footer>
   );
