@@ -19,9 +19,9 @@ export default function CTASection() {
             </div>
 
             <div className="grid gap-4 sm:grid-cols-3">
-              <motion.a whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }} href="mailto:Michaelchimeremuezeprosper@gmail.com" target="_blank" rel="noopener noreferrer" className="rounded-3xl border border-zinc-800 bg-zinc-900/80 px-5 py-6 text-left transition hover:border-amber-500/60">
+              <motion.a whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }} href="mailto:michaelchimeremuezeprosper@gmail.com" target="_blank" rel="noopener noreferrer" className="rounded-3xl border border-zinc-800 bg-zinc-900/80 px-5 py-6 text-left transition hover:border-amber-500/60">
                 <p className="text-xs font-black uppercase tracking-[0.24em] text-amber-500">Email</p>
-                <p className="mt-3 text-sm font-semibold text-white">Michaelchimeremuezeprosper@gmail.com</p>
+                <p className="mt-3 text-sm font-semibold text-white">michaelchimeremuezeprosper@gmail.com</p>
               </motion.a>
 
               <motion.a whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }} href="https://wa.me/2347044281541?text=Hello%2C%20I%20would%20like%20to%20make%20an%20inquiry." target="_blank" rel="noopener noreferrer" className="rounded-3xl border border-zinc-800 bg-zinc-900/80 px-5 py-6 text-left transition hover:border-amber-500/60">
