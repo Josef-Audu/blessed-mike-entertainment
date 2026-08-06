@@ -16,7 +16,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${oswald.variable} ${inter.variable} scroll-smooth`}>
-      <body className="min-h-screen bg-zinc-950 font-sans text-white antialiased">
+      <body suppressHydrationWarning className="min-h-screen bg-zinc-950 font-sans text-white antialiased">
         <div className="flex min-h-screen flex-col">
           <Navbar />
           <main className="flex-1"><PageAnimate>{children}</PageAnimate></main>
