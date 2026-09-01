@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 async function protectedFetch(url, options) {
@@ -209,7 +210,7 @@ export default function AdminDashboard() {
             </select>
             <input type="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime,video/webm" onChange={handleFileChange} className="w-full text-sm text-zinc-400" />
             <p className="text-[10px] text-zinc-500">JPEG, PNG, WEBP, MP4, MOV, or WEBM · maximum 25 MB</p>
-            {mediaPreview && <div className="aspect-video overflow-hidden rounded bg-black">{isVideo ? <video src={mediaPreview} controls className="w-full h-full object-cover" /> : <img src={mediaPreview} alt="Upload preview" className="w-full h-full object-cover" />}</div>}
+            {mediaPreview && <div className="relative aspect-video overflow-hidden rounded bg-black">{isVideo ? <video src={mediaPreview} controls className="w-full h-full object-cover" /> : <Image src={mediaPreview} alt="Upload preview" fill unoptimized className="object-cover" />}</div>}
             <textarea name="content" value={formData.content} onChange={handleChange} required minLength={10} maxLength={30000} rows={8} placeholder="Post content" className="w-full bg-zinc-950 border border-zinc-800 rounded p-4 resize-y" />
             <button disabled={submitting} className="w-full bg-amber-500 text-black font-black uppercase tracking-widest text-xs py-4 rounded disabled:opacity-50">{submitting ? "Publishing…" : "Publish securely"}</button>
           </form>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 
 function RotatingWireframe() {
@@ -27,15 +27,18 @@ function ParticleField({ count = 400 }) {
   const positions = useMemo(() => {
     const arr = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      const r = 2.6 + Math.random() * 1.6;
-      const x = r * Math.sin(phi) * Math.cos(theta);
-      const y = r * Math.sin(phi) * Math.sin(theta);
-      const z = r * Math.cos(phi);
-      arr[i * 3] = x;
-      arr[i * 3 + 1] = y;
-      arr[i * 3 + 2] = z;
+      const seed1 = Math.sin(i * 127.1 + 311.7) * 43758.5453;
+      const rand1 = seed1 - Math.floor(seed1);
+      const seed2 = Math.sin(i * 269.5 + 183.3) * 43758.5453;
+      const rand2 = seed2 - Math.floor(seed2);
+      const seed3 = Math.sin(i * 419.2 + 371.9) * 43758.5453;
+      const rand3 = seed3 - Math.floor(seed3);
+      const theta = rand1 * Math.PI * 2;
+      const phi = Math.acos(2 * rand2 - 1);
+      const r = 2.6 + rand3 * 1.6;
+      arr[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+      arr[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+      arr[i * 3 + 2] = r * Math.cos(phi);
     }
     return arr;
   }, [count]);
@@ -56,12 +59,7 @@ function ParticleField({ count = 400 }) {
 }
 
 export default function CTABackground() {
-  const [dpr, setDpr] = useState(1);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    setDpr(Math.min(window.devicePixelRatio || 1, 2));
-  }, []);
+  
 
   // Small, lightweight scene used as ambient backdrop. pointer-events-none to avoid capturing clicks.
   return (
@@ -69,7 +67,7 @@ export default function CTABackground() {
       <Canvas
         style={{ width: "100%", height: "100%" }}
         camera={{ position: [0, 0, 8], fov: 50 }}
-        dpr={dpr}
+        dpr={[1, 2]}
         gl={{ alpha: true, antialias: true, powerPreference: "low-power", preserveDrawingBuffer: false }}
         shadows={false}
         frameloop="demand"
